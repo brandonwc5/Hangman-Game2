@@ -3,17 +3,31 @@ alert("The category is Presidents");
 //set up my variables
 var word = ["WASHINGTON", "ADAMS", "LINCOLN", "OBAMA", "BUSH", "KENNEDY", "POLK", "CARTER", "BUCHANNAN", "MADISON", "JACKSON"];
 var currWord = Math.floor(Math.random()*word.length);
+var answer = word[currWord];
 var currEvent = "";
 var guessesLeft= 7;
 var correctGuessArray= [];
 var incorrectGuessArray= [];
 var blank = "__&nbsp;";
 var winCount = 0;
+var lossCount = 0;
 
+function reset(){
+	currWord = Math.floor(Math.random()*word.length);
+	guessesLeft= 7;
+	correctGuessArray= [];
+	incorrectGuessArray= [];
+	blank = "__&nbsp;";
+	answer = word[currWord];
+	document.getElementById("correctGuess").innerHTML = correctGuessArray;
+
+	for(i=0; i<answer.length;i++){
+		correctGuessArray.push(blank);
+		console.log(answer);
+	}
+}
 //add event listener
 document.addEventListener("keypress", game);
-
-var answer = word[currWord];
 
 console.log(answer);
 
@@ -41,19 +55,20 @@ function game(e){
 			incorrectGuessArray.push(userLetter); 
 			document.getElementById("wrong").innerHTML = incorrectGuessArray.join("");
 			guessesLeft--;
-			function what(){
-				document.getElementById("guesses").innerHTML = guessesLeft;
-				};
-			what();
+			document.getElementById("guesses").innerHTML = guessesLeft;
 		}
 	}
 	if(correctGuessArray.join("") == answer){
-		alert("You win!");
-		document.location.reload();
- 	}
+		winCount++;
+		document.getElementById("winCount").innerHTML = winCount;
+		reset();
+		alert("You win! Press any letter for a new game!");
+	};
 
 	if(incorrectGuessArray.length == 7){
- 		alert("You Lose!");
- 		document.location.reload();
+		lossCount++;
+		document.getElementById("lossCount").innerHTML = lossCount;
+		reset();
+ 		alert("You Lose! Press any letter for a new game!");
  	}
  }
